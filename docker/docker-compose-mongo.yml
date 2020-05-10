@@ -1,0 +1,15 @@
+# Before run this compose make sure that app-forecast is created
+# docker network create app-forecast -d bridge
+version: '2.1'
+services:
+  weather-mongo:
+    image: mongo:3.6
+    privileged: true
+    restart: unless-stopped
+    ports:
+    - 27017:27017
+    networks:
+      - app-forecast
+networks:
+  app-forecast:
+    external: true

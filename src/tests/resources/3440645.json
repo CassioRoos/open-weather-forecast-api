@@ -1,0 +1,44 @@
+{
+  "cnt": 1,
+  "list": [
+    {
+      "coord": {
+        "lon": -56.62,
+        "lat": -34.46
+      },
+      "sys": {
+        "country": "UY",
+        "timezone": -10800,
+        "sunrise": 1589106566,
+        "sunset": 1589144182
+      },
+      "weather": [
+        {
+          "id": 800,
+          "main": "Clear",
+          "description": "clear sky",
+          "icon": "01d"
+        }
+      ],
+      "main": {
+        "temp": 25,
+        "feels_like": 20.2,
+        "temp_min": 25,
+        "temp_max": 25,
+        "pressure": 1006,
+        "humidity": 44
+      },
+      "visibility": 10000,
+      "wind": {
+        "speed": 7.7,
+        "deg": 350
+      },
+      "clouds": {
+        "all": 0
+      },
+      "dt": 1589134522,
+      "id": 3440645,
+      "name": "Departamento de San José"
+    }
+  ]
+}

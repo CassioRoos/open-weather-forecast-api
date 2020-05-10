@@ -1,0 +1,29 @@
+version: 1
+disable_existing_loggers: False
+formatters:
+  logline:
+    format: '%(asctime)s %(levelname)+8s %(message)s'
+    datefmt: '%d/%m/%Y %H:%M:%S'
+handlers:
+  console:
+    class: logging.StreamHandler
+    formatter: logline
+    level: INFO
+  logstash:
+    level: INFO
+    class: logstash_async.handler.AsynchronousLogstashHandler
+    host: localhost
+    port: 6000
+    database_path: logstash.db
+root:
+  handlers: 
+    - console
+    - logstash
+  level: INFO
+loggers:
+  '':  # root logger
+    level: INFO
+    handlers:
+      - console
+      - logstash
+    propagate: False
