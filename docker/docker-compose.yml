@@ -1,0 +1,27 @@
+version: '2.1'
+services:
+  weather-mongo:
+    image: mongo:3.6
+    privileged: true
+    restart: unless-stopped
+    ports:
+    - 27017:27017
+  weather-app:
+    image: weather-forecast
+    privileged: true
+    restart: unless-stopped
+    ports:
+    - ${APP_PORT:-5001}:5001
+    environment:
+        - APP_CONF_LOG_LEVEL=${APP_CONF_LOG_LEVEL:-DEBUG}
+        - APP_CONF_DEBUG=${APP_CONF_DEBUG:-True}
+        - APP_CONF_FULL_URL=${APP_CONF_FULL_URL:-True}
+        - APP_CONF_COMPRESS_RESPONSE=${APP_CONF_COMPRESS_RESPONSE:-True}
+        #DB CONf
+        - DB_HOST=${DB_HOST:-weather-mongo}
+        - DB_PORT=${DB_PORT:-27017}
+        #WEATHER FORECAST CONFIG
+        - WEATHER_API_BASE_URL=${WEATHER_API_BASE_URL:-http://api.openweathermap.org/data/2.5/group?}
+        - WEATHER_API_DEFAULT_TIMEOUT=${WEATHER_API_DEFAULT_TIMEOUT:-360}
+        - WEATHER_API_USER_KEY=${WEATHER_API_USER_KEY:-360}
+        - WEATHER_API_UNITS=${WEATHER_API_UNITS:-metric}
