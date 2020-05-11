@@ -1,6 +1,5 @@
 import json
 import logging
-from abc import ABC
 from http import HTTPStatus
 
 from tornado_swirl import schema
@@ -13,25 +12,7 @@ service = ForecastService()
 
 
 class ForecastIdHandler(BaseHandler):
-
     async def get(self, clientid):
-        """Get the percentage of records requested
-
-        Get the percentage of records requested
-
-        Query params:
-            request_id (string) -- Unique identifier sent via request
-
-        200 Response:
-           weather (WeatherResponseComplete) -- Successful operation (HTTP 200 Ok)
-
-        Error Responses:
-            500 (ErrorResponse) -- Internal Server Error
-            404 (SimpleErrorResponse) -- Not Found
-
-        Tags:
-            Forecast
-        """
 
         try:
             response = await service.get_progress_percentage(request_id=clientid)
