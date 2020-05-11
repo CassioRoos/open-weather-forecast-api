@@ -11,26 +11,6 @@ from services.forecast_service import ForecastService
 service = ForecastService()
 
 
-class ForecastIdHandler(BaseHandler):
-    async def get(self, clientid):
-
-        try:
-            response = await service.get_progress_percentage(request_id=clientid)
-        except RequestIdNotFound:
-            self.set_status(HTTPStatus.NOT_FOUND)
-            response = {"message": f"No result was found for the id : {clientid}"}
-        except Exception as e:
-            self.set_status(HTTPStatus.INTERNAL_SERVER_ERROR)
-            logging.error(e, stack_info=True, exc_info=True)
-            response = {"message": "An error has occurred",
-                        "error": format(e)}
-        else:
-            self.set_status(HTTPStatus.OK)
-        finally:
-            self.write(response)
-            await self.finish()
-
-
 class ForecastHandler(BaseHandler):
     async def post(self):
         """Request to open wether the forecast of a predefined list of cities
@@ -76,6 +56,42 @@ class ForecastHandler(BaseHandler):
         if not clientid:
             raise ParameterNotFound()
         return body
+
+
+class ForecastIdHandler(BaseHandler):
+    async def get(self, clientid):
+        """Request to open wether the forecast of a predefined list of cities
+
+        Request to open wether the forecast of a predefined list of cities
+
+        Path params:
+            request_id (string) -- Unique identifier sent via request
+
+        200 Response:
+           weather (WeatherResponseComplete) -- Successful operation (HTTP 200 Ok)
+
+        Error Responses:
+            500 (ErrorResponse) -- Internal Server Error
+            404 (SimpleErrorResponse) -- Not Found
+
+        Tags:
+            Forecast
+        """
+        try:
+            response = await service.get_progress_percentage(request_id=clientid)
+        except RequestIdNotFound:
+            self.set_status(HTTPStatus.NOT_FOUND)
+            response = {"message": f"No result was found for the id : {clientid}"}
+        except Exception as e:
+            self.set_status(HTTPStatus.INTERNAL_SERVER_ERROR)
+            logging.error(e, stack_info=True, exc_info=True)
+            response = {"message": "An error has occurred",
+                        "error": format(e)}
+        else:
+            self.set_status(HTTPStatus.OK)
+        finally:
+            self.write(response)
+            await self.finish()
 
 
 @schema
