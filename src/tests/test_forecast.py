@@ -59,5 +59,17 @@ class TestFocastHandler(TestWeatherConditionApplication):
     def test_post_with_no_body(self):
         response = self.fetch(self.url, method="POST", body=json.dumps(dict()))
         self.assertEqual(HTTPStatus.UNAUTHORIZED, response.code)
-        # response_body = {"message": f"A record already exists for this id : {request_id}"}
         self.assertEqual(json.loads(response.body)["message"], "The parameter request_id was not informed")
+
+    @mock.patch("services.openweather_service.OpenWeatherService.exec_request")
+    def test_get_progress_request(self, mock):
+        request_id = 513
+        self.insert_forecast(mock, request_id)
+        sleep(1.5)
+        url = f"{self.url}/{request_id}"
+        response = self.fetch(url, method="GET")
+        self.assertEqual(HTTPStatus.OK, response.code)
+        response_body = json.loads(response.body)
+        self.assertEqual(response_body["request_id"], request_id)
+        self.assertEqual(len(response_body["forecast"]), 5)
+        self.assertEqual(response_body["message"], "The percentage of progress is 100.0%")
