@@ -7,6 +7,7 @@ APP_HOST = config("APP_HOST", default="localhost", cast=str)
 
 # #################
 
+APP_CONF_FAKE_CITIES = config("APP_CONF_FAKE_CITIES", default=False, cast=bool)
 APP_CONF_LOG_LEVEL = config("APP_CONF_LOG_LEVEL", default="WARNING", cast=str)
 APP_CONF_DEBUG = config("APP_CONF_DEBUG", default=True, cast=bool)
 APP_CONF_FULL_URL = config("APP_CONF_FULL_URL", default=True, cast=bool)
@@ -27,5 +28,3 @@ WEATHER_API_DEFAULT_TIMEOUT = config("WEATHER_API_DEFAULT_TIMEOUT", default=360,
 WEATHER_API_USER_KEY = config("WEATHER_API_USER_KEY", default="70425e4429115cf6ec80c7e0af121cd4", cast=str)
 WEATHER_API_UNITS = config("WEATHER_API_UNITS", default="metric", cast=str)
 WEATHER_API_MAX_REQUESTS_PER_MINUTE = config("WEATHER_API_MAX_REQUESTS_PER_MINUTE", default=60, cast=int)
-
-

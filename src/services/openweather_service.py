@@ -49,20 +49,25 @@ class OpenWeatherService:
         self.start_time = request_time
         for city_id in get_cities():
             await self.process_request(city_id, request_id, request_time)
-            # response = await self.get_forecast_for_city_id(city_id)
-            # await self.parse_and_store_reponse(city_id, response, request_id, request_time)
 
     async def process_request(self, city_id, request_id, request_time):
         elapsed = time.time() - self.start_time
         if self.request_count == 60 and 60 > elapsed:
-            time.sleep(60 - elapsed)
-            self.request_count = 0
-            self.start_time = time.time()
+            logging.debug(f"Awaiting {60 - elapsed} secs")
+            time.sleep(abs(60 - elapsed))
+            await self.reset_counters()
 
-        self.start_time = time.time()
+        if 60 < elapsed and self.request_count < 60:
+            await self.reset_counters()
+
+        logging.debug(f"elapsed -> {elapsed} | self.request_count -> {self.request_count}")
         response = await self.get_forecast_for_city_id(city_id)
         await self.parse_and_store_reponse(city_id, response, request_id, request_time)
         self.request_count += 1
+
+    async def reset_counters(self):
+        self.request_count = 0
+        self.start_time = time.time()
 
     async def parse_and_store_reponse(self, city_id, response, request_id, request_time):
         if response.code != HTTPStatus.OK:
@@ -79,6 +84,4 @@ class OpenWeatherService:
                 "cityid": city_id,
                 "temp": forecast["temp"],
                 "humidity": forecast["humidity"]}
-        logging.debug(data)
         self.repository.insert(data)
-        logging.debug(f"{city_id} ---> {response.code} ")

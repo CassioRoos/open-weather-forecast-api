@@ -13,6 +13,7 @@ from tests.utils import forecast_mock
 class TestFocastHandler(TestWeatherConditionApplication):
     def setUp(self):
         config.WEATHER_API_BASE_URL = "ALL DATA WILL BE MOCKED"
+        config.APP_CONF_FAKE_CITIES = True
         self.conn = MongoClient(config.DB_HOST, config.DB_PORT)
         self.dropCollection()
         self.url = uris.URL_CONTEXT_FORECAST
@@ -65,7 +66,7 @@ class TestFocastHandler(TestWeatherConditionApplication):
     def test_get_progress_request(self, mock):
         request_id = 513
         self.insert_forecast(mock, request_id)
-        sleep(1.5)
+        sleep(2)
         url = f"{self.url}/{request_id}"
         response = self.fetch(url, method="GET")
         self.assertEqual(HTTPStatus.OK, response.code)
