@@ -1,6 +1,6 @@
 # Open-Weather-Forecast-API by Cassio Roos
 
-##Objective
+## Objective
 
 Tecnichal test using [OpenWeather API](https://home.openweathermap.org/).
 
@@ -31,7 +31,7 @@ docker-compose -f docker/docker-compose.yml up -d
 ```
 This will run all that you need to use the application.
 
-#####Running separately
+##### Running separately
 To run the application and the database separately, docker needs a network to connect the containers:
 
 ```shell script
@@ -48,6 +48,6 @@ docker-compose -f docker/docker-compose-app.yml up -d
 ```
 
 
-##Swagger
+## Swagger
 With the application running access the api endpoint **/swagger/spec.html**, like this [http://localhost:5001/swagger/spec.html](http://localhost:5001/swagger/spec.html) 
 
