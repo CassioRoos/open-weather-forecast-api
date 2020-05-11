@@ -8,7 +8,7 @@ class WeatherConditionApplication(Application):
     def __init__(self, classes):
         self.url_handlers = list()
 
-        self.register_route(uris.VURI_FORECAST_CLIENT_ID, ForecastIdHandler)
+        self.register_route(uris.VURI_FORECAST_request_id, ForecastIdHandler)
         self.register_route(uris.VURI_FORECAST, ForecastHandler)
         settings = {
             "debug": config.APP_CONF_DEBUG,

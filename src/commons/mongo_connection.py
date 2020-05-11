@@ -1,9 +1,12 @@
-from bson import ObjectId
-from pymongo import monitoring, MongoClient
-from configurations import config
 import logging
 
+from bson import ObjectId
+from pymongo import monitoring, MongoClient
+
+from configurations import config
+
 mongo_client = MongoClient(host=config.DB_HOST, port=config.DB_PORT)[config.DB_NAME][config.DB_COLLECTION]
+
 
 class CommandLogger(monitoring.CommandListener):
     def started(self, event):
@@ -28,6 +31,6 @@ class CommandLogger(monitoring.CommandListener):
 
 monitoring.register(CommandLogger())
 
-def NewStringObjectId():
-    return str(ObjectId())
 
+def new_string_object_id():
+    return str(ObjectId())

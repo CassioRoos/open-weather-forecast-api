@@ -1,7 +1,9 @@
 import json
 import os
+from functools import partial
 from http import HTTPStatus
 
+from tornado import ioloop
 from tornado.httpclient import HTTPResponse, HTTPRequest
 
 TEST_PATH = os.path.dirname(__file__)
@@ -26,3 +28,7 @@ def forecast_mock(file):
     resp.text = json.dumps(body)
     resp.status_code = HTTPStatus.OK
     return resp
+
+
+def future_call(method, *args):
+    ioloop.IOLoop.current().call_later(0.01, partial(method, *args))

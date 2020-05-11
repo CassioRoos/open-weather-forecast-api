@@ -37,7 +37,7 @@ class TestFocastHandler(TestWeatherConditionApplication):
     def test_unique_id_per_request(self, mock):
         request_id = 313
         self.insert_forecast(mock, request_id)
-        body = json.dumps({"clientid": request_id})
+        body = json.dumps({"request_id": request_id})
         response = self.fetch(self.url, method="POST", body=body)
         self.assertEqual(HTTPStatus.UNAUTHORIZED, response.code)
         response_body = {"message": f"A record already exists for this id : {request_id}"}
@@ -49,7 +49,7 @@ class TestFocastHandler(TestWeatherConditionApplication):
                             forecast_mock(3439781),
                             forecast_mock(3440645),
                             forecast_mock(3442098)]
-        body = json.dumps({"clientid": request_id})
+        body = json.dumps({"request_id": request_id})
         response = self.fetch(self.url, method="POST", body=body)
         self.assertEqual(HTTPStatus.OK, response.code)
         response_body = json.loads(response.body)
@@ -60,4 +60,4 @@ class TestFocastHandler(TestWeatherConditionApplication):
         response = self.fetch(self.url, method="POST", body=json.dumps(dict()))
         self.assertEqual(HTTPStatus.UNAUTHORIZED, response.code)
         # response_body = {"message": f"A record already exists for this id : {request_id}"}
-        self.assertEqual(json.loads(response.body)["message"], "The parameter clientid was not informed")
+        self.assertEqual(json.loads(response.body)["message"], "The parameter request_id was not informed")

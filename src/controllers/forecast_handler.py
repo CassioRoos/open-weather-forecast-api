@@ -21,7 +21,7 @@ class ForecastHandler(BaseHandler):
             request_id (string) -- Unique identifier sent via request
 
         Returns:
-            weather (WeatherResponse) -- Successful operation (HTTP 200 Ok)
+            weather (SimpleResponse) -- Successful operation (HTTP 200 Ok)
 
         Error Responses:
             500 (ErrorResponse) -- Internal Server Error
@@ -32,14 +32,14 @@ class ForecastHandler(BaseHandler):
         """
 
         try:
-            clientid = (await self.validate_body(json.loads(self.request.body)))["clientid"]
-            response = await service.get_all_wether_conditions_from_list(clientid)
+            request_id = (await self.validate_body(json.loads(self.request.body)))["request_id"]
+            response = await service.get_all_wether_conditions_from_list(request_id)
         except RequestIdAlreadyExists:
             self.set_status(HTTPStatus.UNAUTHORIZED)
-            response = {"message": f"A record already exists for this id : {clientid}"}
+            response = {"message": f"A record already exists for this id : {request_id}"}
         except ParameterNotFound:
             self.set_status(HTTPStatus.UNAUTHORIZED)
-            response = {"message": f"The parameter clientid was not informed"}
+            response = {"message": f"The parameter request_id was not informed"}
         except Exception as e:
             self.set_status(HTTPStatus.INTERNAL_SERVER_ERROR)
             logging.error(e, stack_info=True, exc_info=True)
@@ -52,14 +52,14 @@ class ForecastHandler(BaseHandler):
             await self.finish()
 
     async def validate_body(self, body):
-        clientid = body.get("clientid", None)
-        if not clientid:
+        request_id = body.get("request_id", None)
+        if not request_id:
             raise ParameterNotFound()
         return body
 
 
 class ForecastIdHandler(BaseHandler):
-    async def get(self, clientid):
+    async def get(self, requestid):
         """Request to open wether the forecast of a predefined list of cities
 
         Request to open wether the forecast of a predefined list of cities
@@ -78,10 +78,10 @@ class ForecastIdHandler(BaseHandler):
             Forecast
         """
         try:
-            response = await service.get_progress_percentage(request_id=clientid)
+            response = await service.get_progress_percentage(request_id=int(requestid))
         except RequestIdNotFound:
             self.set_status(HTTPStatus.NOT_FOUND)
-            response = {"message": f"No result was found for the id : {clientid}"}
+            response = {"message": f"No result was found for the id : {requestid}"}
         except Exception as e:
             self.set_status(HTTPStatus.INTERNAL_SERVER_ERROR)
             logging.error(e, stack_info=True, exc_info=True)
@@ -96,18 +96,6 @@ class ForecastIdHandler(BaseHandler):
 
 @schema
 class WeatherResponse(object):
-    """ Weather response with the list of cities
-
-        Properties:
-            request_id (string) -- Unique identifier sent via request
-            request_time (string) -- Date when the request occurred (Format dd/mm/yyyy hh:mm:ss)
-            forecast ([Forecast]) -- List of objects with the weather forecast
-    """
-    pass
-
-
-@schema
-class WeatherResponseComplete(object):
     """ Weather response with the list of cities
 
         Properties:
@@ -147,6 +135,6 @@ class SimpleResponse(object):
     """Error response object.
 
     Properties:
-        message (string) -- Simple message.
+        message (string) -- Message.
     """
     pass

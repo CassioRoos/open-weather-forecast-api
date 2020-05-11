@@ -1,5 +1,3 @@
-from http import HTTPStatus
-
 from tornado import web
 
 
@@ -12,8 +10,3 @@ class BaseHandler(web.RequestHandler):
     def set_default_headers(self):
         self.add_header("Access-Control-Allow-Origin", "*")
         self.add_header("Content-Type", "application/json")
-
-    def writeResponse(self, code=HTTPStatus.OK, message="Operation executed successfully!"):
-        self.set_status(code)
-        self.write({"status": code, "message": message})
-

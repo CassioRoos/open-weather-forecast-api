@@ -1,6 +1,7 @@
 import asyncio
-import socket
 import logging
+import socket
+
 from tornado.platform import asyncio as tornado_asyncio
 
 from configurations import config
@@ -13,12 +14,11 @@ logging.basicConfig(level=logging.getLevelName(config.APP_CONF_LOG_LEVEL))
 
 if __name__ == "__main__":
     tornado_asyncio.AsyncIOMainLoop().install()
-    """ Configurações passadas para a base do handler """
     classes = {}
     app = WeatherConditionApplication(classes)
-    porta = config.APP_PORT
-    app.listen(porta)
-    logging.info(f"Running on http://{IP}:{porta}. Press CTRL + C to stop.")
+    port = config.APP_PORT
+    app.listen(port)
+    logging.info(f"Running on http://{IP}:{port}. Press CTRL + C to stop.")
     loop = asyncio.get_event_loop()
     try:
         loop.run_forever()
