@@ -18,6 +18,7 @@ class ForecastService:
             raise RequestIdAlreadyExists
 
     async def get_all_wether_conditions_from_list(self, request_id):
+        await self.trow_exception_if_exists(request_id)
         future_call(self.open_weather_service.get_forecast_to_all_cities, request_id)
         response = {"message": "Your request will be processed in background"}
         return response

@@ -1,7 +1,7 @@
+import json
 from http import HTTPStatus
 from time import sleep
 from unittest import mock
-import json
 
 from pymongo import MongoClient
 
@@ -37,6 +37,7 @@ class TestFocastHandler(TestWeatherConditionApplication):
     def test_unique_id_per_request(self, mock):
         request_id = 313
         self.insert_forecast(mock, request_id)
+        sleep(1.5)
         body = json.dumps({"request_id": request_id})
         response = self.fetch(self.url, method="POST", body=body)
         self.assertEqual(HTTPStatus.UNAUTHORIZED, response.code)
@@ -53,8 +54,7 @@ class TestFocastHandler(TestWeatherConditionApplication):
         response = self.fetch(self.url, method="POST", body=body)
         self.assertEqual(HTTPStatus.OK, response.code)
         response_body = json.loads(response.body)
-        self.assertEqual(response_body["request_id"], request_id)
-        self.assertEqual(len(response_body["forecast"]), 5)
+        self.assertEqual(response_body["message"], "Your request will be processed in background")
 
     def test_post_with_no_body(self):
         response = self.fetch(self.url, method="POST", body=json.dumps(dict()))

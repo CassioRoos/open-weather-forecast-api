@@ -3,11 +3,10 @@ import os
 from functools import partial
 from http import HTTPStatus
 
-from tornado import ioloop
+from tornado import ioloop, gen
 from tornado.httpclient import HTTPResponse, HTTPRequest
 
 TEST_PATH = os.path.dirname(__file__)
-# MOCKS_PATH = os.path.join(TEST_PATH, "..", "resources")
 MOCKS_PATH = os.path.join(TEST_PATH, "resources")
 
 
@@ -17,6 +16,7 @@ def file_from_resource(file_name, encoding=None):
         return json.loads(file.read())
 
 
+@gen.coroutine
 def forecast_mock(file):
     body = file_from_resource(f"{file}.json")
     request = HTTPRequest(
