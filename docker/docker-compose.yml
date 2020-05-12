@@ -5,7 +5,7 @@ services:
     privileged: true
     restart: unless-stopped
     ports:
-    - 27017:27017
+    - ${DB_PORT:-27017}:27017
   weather-app:
     image: weather-forecast
     privileged: true

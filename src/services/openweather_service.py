@@ -62,14 +62,14 @@ class OpenWeatherService:
 
         logging.debug(f"elapsed -> {elapsed} | self.request_count -> {self.request_count}")
         response = await self.get_forecast_for_city_id(city_id)
-        await self.parse_and_store_reponse(city_id, response, request_id, request_time)
+        await self.parse_and_store_response(city_id, response, request_id, request_time)
         self.request_count += 1
 
     async def reset_counters(self):
         self.request_count = 0
         self.start_time = time.time()
 
-    async def parse_and_store_reponse(self, city_id, response, request_id, request_time):
+    async def parse_and_store_response(self, city_id, response, request_id, request_time):
         if response.code != HTTPStatus.OK:
             logging.error(
                 f"Error while getting data from OpenApi. \n "
