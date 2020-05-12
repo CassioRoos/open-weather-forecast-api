@@ -53,12 +53,13 @@ tornado-swirl==0.1.16
 ### Executing tests
 To run the tests and coverage execute:
 
+**MONGO NEEDS TO BE RUNNING TO RUN TESTS**
+
 ```shell script
 pytest src/tests -v -s --cov=. --cov-report xml:coverage/coverage.xml --cov-report html:coverage_html --cov-report term-missing --cov-fail-under 90
 ```
 
 The coverage is meant to break when is under 90%
-
 
 ### Docker environment
 
