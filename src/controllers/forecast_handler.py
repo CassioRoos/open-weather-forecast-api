@@ -25,7 +25,7 @@ class ForecastHandler(BaseHandler):
 
         Error Responses:
             500 (ErrorResponse) -- Internal Server Error
-            401 (SimpleErrorResponse) -- Object Already Exists
+            401 (SimpleResponse) -- Object Already Exists
 
         Tags:
             Forecast
@@ -68,11 +68,11 @@ class ForecastIdHandler(BaseHandler):
             request_id (string) -- Unique identifier sent via request
 
         200 Response:
-           weather (WeatherResponseComplete) -- Successful operation (HTTP 200 Ok)
+           weather (WeatherResponse) -- Successful operation (HTTP 200 Ok)
 
         Error Responses:
             500 (ErrorResponse) -- Internal Server Error
-            404 (SimpleErrorResponse) -- Not Found
+            404 (SimpleResponse) -- Not Found
 
         Tags:
             Forecast
