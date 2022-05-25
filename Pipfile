@@ -21,7 +21,7 @@ tornado = "==6.0.3"
 tornado-swirl = "==0.1.16"
 urllib3 = ">=1.24"
 apispec = "==0.39.0"
-pyjwt = "==1.6.4"
+pyjwt = "==2.4.0"
 #motor = "==2.0.0"
 flake8 = "*"
 
